@@ -1,0 +1,4 @@
+OpenLapse Controller Carrier Board design is released into the public
+domiain under the Creative Commons Attribution-NonCommercial 3.0 License
+https://creativecommons.org/licenses/by-nc/3.0/
+
