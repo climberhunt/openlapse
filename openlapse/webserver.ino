@@ -494,10 +494,12 @@ String timelapse_webPresent()
   snprintf_P(stemp, sizeof(stemp), "%d", sysCfg.timelapse_interval);
   page.replace("{i}", stemp);
 
-  snprintf_P(sensor, sizeof(sensor), "<tr><th>Progress:</th><td>2 of {f} frames</td></tr>");
+  snprintf_P(sensor, sizeof(sensor), "<tr><th>Progress:</th><td>{c} of {f} frames</td></tr>");
   page += sensor;
   snprintf_P(stemp, sizeof(stemp), "%d", sysCfg.timelapse_frames);
   page.replace("{f}", stemp);
+  snprintf_P(stemp, sizeof(stemp), "%d", sysCfg.timelapse_count);
+  page.replace("{c}", stemp);
 
   snprintf_P(sensor, sizeof(sensor), "<tr><th>Time Remaining:</th><td>14:20</td></tr>");
   page += sensor;
@@ -793,6 +795,7 @@ void handleStart()
 {
   // TODO - Start functionality
 
+  sysCfg.timelapse_count = 0;
   sysCfg.timelapse_running = PULSE_ON;
   handleRoot();
 }
@@ -850,6 +853,8 @@ void handleMotorRight()
 void handleMotorStop()
 {
   M2.setmotor(_STOP, pwm);
+  motor_a_cmd = 0;
+  motor_b_cmd = 0;
   handleMotor();
 }
 

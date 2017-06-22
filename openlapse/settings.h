@@ -112,6 +112,7 @@ struct SYSCFG {
   uint32_t      timelapse_pulse;
   uint32_t      timelapse_interval;
   uint32_t      timelapse_frames;
+  uint32_t      timelapse_count;
 
 } sysCfg;
 

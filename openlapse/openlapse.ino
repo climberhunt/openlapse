@@ -501,6 +501,7 @@ void timelapse (int pulse, int interval, int motor) {
 
     // Open the shutter
     case SHUTTER_OPEN:
+      sysCfg.timelapse_count++;
       Serial.printf("Shutter On %d\n", current);
       digitalWrite(LEDPIN, LOW);
       digitalWrite(SHUTTERPIN, LOW);
@@ -526,6 +527,16 @@ void timelapse (int pulse, int interval, int motor) {
   sysCfg.timelapse_running++;
   if (sysCfg.timelapse_running > SHUTTER_CLOSE)
     sysCfg.timelapse_running = PULSE_ON;
+
+  /* Check the frame limit once each time around the state machine loop. */
+  if (sysCfg.timelapse_running == PULSE_ON) {
+    Serial.printf("Count %d of %d\n", sysCfg.timelapse_count, sysCfg.timelapse_frames);
+    if (sysCfg.timelapse_count >= sysCfg.timelapse_frames) {
+      Serial.printf("STOPPING\n");
+      next_state = STOPPED;
+      sysCfg.timelapse_running =  STOPPED;
+    }
+  }
 
 }
 
@@ -613,7 +624,7 @@ void loop()
   timelapse(pulse, interval, 0);
 
   if (motor_a_cmd == 1) {
-    M1.setmotor(_CW, 50);
+    M1.setmotor(motor_direction, 50);
   }
   if (motor_a_cmd == 2) {
     M1.setmotor(_STOP, 50);
@@ -621,7 +632,7 @@ void loop()
   motor_a_cmd = 0;
 
   if (motor_b_cmd == 1) {
-    M2.setmotor(_CW, 50);
+    M2.setmotor(motor_direction, 50);
   }
   if (motor_b_cmd == 2) {
     M2.setmotor(_STOP, 50);
