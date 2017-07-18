@@ -3,7 +3,7 @@
  * Based on Sonoff-Tasmota by Theo Arends
 */
 
-#define VERSION                0x000100  // 0.1.0
+#define VERSION                0x000102  // 0.1.2
 
 enum log_t   {LOG_LEVEL_NONE, LOG_LEVEL_ERROR, LOG_LEVEL_INFO, LOG_LEVEL_DEBUG, LOG_LEVEL_DEBUG_MORE, LOG_LEVEL_ALL};
 
@@ -435,7 +435,7 @@ const int SHUTTERPIN = D7;
 
 
 int pulse = 500;
-int pulse_d = 490;
+int pulse_d = 800;
 int interval = 500;
 int interval_d = 10;
 int frames = 20;
@@ -504,7 +504,7 @@ void timelapse (int pulse, int interval, int motor) {
       sysCfg.timelapse_count++;
       Serial.printf("Shutter On %d\n", current);
       digitalWrite(LEDPIN, LOW);
-      digitalWrite(SHUTTERPIN, LOW);
+      digitalWrite(SHUTTERPIN, HIGH);
       if (sysCfg.timelapse_interval < (pulse_d + interval_d + sysCfg.timelapse_pulse))
         sysCfg.timelapse_interval = (pulse_d + interval_d + sysCfg.timelapse_pulse);
       next_state = current + sysCfg.timelapse_interval - (pulse_d + interval_d + sysCfg.timelapse_pulse);
@@ -514,7 +514,7 @@ void timelapse (int pulse, int interval, int motor) {
     case SHUTTER_CLOSE:
       Serial.printf("Shutter Off %d\n", current);
       digitalWrite(LEDPIN, HIGH);
-      digitalWrite(SHUTTERPIN, HIGH);
+      digitalWrite(SHUTTERPIN, LOW);
       next_state = current + interval_d;
       break;
 
