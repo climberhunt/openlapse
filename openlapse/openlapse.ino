@@ -602,7 +602,7 @@ void setup()
   pinMode(LEDPIN, OUTPUT);
   digitalWrite(LEDPIN, HIGH);
   pinMode(SHUTTERPIN, OUTPUT);
-  digitalWrite(SHUTTERPIN, HIGH);
+  digitalWrite(SHUTTERPIN, LOW);
 
   // Make sure stopped at reboot.
   sysCfg.timelapse_running = STOPPED;
